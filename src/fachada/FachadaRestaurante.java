@@ -62,10 +62,12 @@ public class FachadaRestaurante {
 	
 	public static Produto cadastrarProduto (String nome, double preco) throws Exception {
 		Produto produtoAdicionado = new Produto (nome.toUpperCase(), preco);
-		if (domani.adicionarProduto(produtoAdicionado)) {
-			return produtoAdicionado;
+		Produto p = domani.localizarProduto(produtoAdicionado.getNome());
+		if (p != null) {
+			throw new Exception("Produto já cadastrado");
 		}
-		return null;
+		domani.adicionarProduto(produtoAdicionado);
+		return produtoAdicionado;
 	}
 	
 	public static Produto apagarProduto (String nome) throws Exception {
@@ -116,6 +118,11 @@ public class FachadaRestaurante {
 		
 		mesasGarcom = definirGarcomMesa(apelido, mesainicial, mesafinal);
 		Garcom garcomAdicionado = new Garcom (apelido.toUpperCase(), mesasGarcom);
+		
+		Garcom g = domani.localizarGarcom(garcomAdicionado.getApelido());
+		if (g != null) {
+			throw new Exception("Garcom já cadastrado");
+		}
 		
 		for (Mesa mesa : mesasGarcom) {
 			mesa.setGarcom(garcomAdicionado);
@@ -182,13 +189,19 @@ public class FachadaRestaurante {
 		}
 	}
 	
-	public static Conta consultarConta(int idmesa) {
+	public static Conta consultarConta(int idmesa) throws Exception {
+		int qntContas =  domani.localizarMesa(idmesa).getContas().size();
+		if (qntContas == 0 ) {
+			throw new Exception ("Mesa sem nenhuma conta registrada na base!");
+		}
+		
 		for (Conta i: domani.localizarMesa(idmesa).getContas()) {
 			if (i.getDtfechamento() == null) {
 				return i;
 			}
 		}
-		return null;
+
+		return domani.localizarMesa(idmesa).getContas().get(qntContas-1);
 	}
 	
 	public static Produto solicitarProduto (int idmesa,String nomeproduto) throws Exception {
@@ -204,7 +217,7 @@ public class FachadaRestaurante {
 		return produtoSolicitado;
 	}
 	
-	public static void cancelarConta (int idmesa) {
+	public static void cancelarConta (int idmesa) throws Exception {
 		Conta contaCancelar = consultarConta(idmesa);
 		
 		domani.removerConta(contaCancelar);
@@ -232,7 +245,7 @@ public class FachadaRestaurante {
 		cancelarConta(idmesaorigem);
 	}
 	
-	public static void fecharConta(int idmesa) {
+	public static void fecharConta(int idmesa) throws Exception {
 		Conta contaFechamento = consultarConta(idmesa);
 		
 		LocalDateTime agora = LocalDateTime.now();

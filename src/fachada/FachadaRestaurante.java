@@ -205,14 +205,15 @@ public class FachadaRestaurante {
 	}
 	
 	public static Produto solicitarProduto (int idmesa,String nomeproduto) throws Exception {
-		Conta contaAberta = consultarConta(idmesa);
 		Produto produtoSolicitado = domani.localizarProduto(nomeproduto);
-		if (contaAberta != null) {
-			contaAberta.getProdutos().add(produtoSolicitado);	
-		}else {
-			criarConta(idmesa).getProdutos().add(produtoSolicitado);
-			contaAberta =  consultarConta(idmesa);
+		try {
+			Conta contaAberta = consultarConta(idmesa);
+			contaAberta.getProdutos().add(produtoSolicitado);
+		} catch (Exception e) {
+			Conta contaAberta = criarConta(idmesa);
+			contaAberta.getProdutos().add(produtoSolicitado);
 		}
+		Conta contaAberta =  consultarConta(idmesa);
 		contaAberta.setTotal(contaAberta.getTotal()+produtoSolicitado.getPreco());
 		return produtoSolicitado;
 	}

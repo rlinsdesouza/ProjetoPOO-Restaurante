@@ -95,7 +95,7 @@ public class TelaPrincipal {
 					p = FachadaRestaurante.solicitarProduto(19, "Guarana");
 				}catch(Exception e){
 					System.out.println(e.getMessage());
-					System.out.println(e.getStackTrace());
+					e.printStackTrace();
 				}
 			}
 			@Override

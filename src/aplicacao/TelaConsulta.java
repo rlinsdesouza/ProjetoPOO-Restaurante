@@ -24,6 +24,7 @@ public class TelaConsulta extends JFrame {
 	private JButton btnConsulta_2;
 	private JButton btnConsulta_3;
 	private JButton btnMesasSemGarcom;
+	private JButton button;
 
 	/**
 	 * Launch the application.
@@ -135,7 +136,7 @@ public class TelaConsulta extends JFrame {
 				}
 			}
 		});
-		btnConsulta_3.setBounds(414, 81, 271, 23);
+		btnConsulta_3.setBounds(414, 112, 271, 23);
 		contentPane.add(btnConsulta_3);
 		
 		btnMesasSemGarcom = new JButton("Mesas sem garcom");
@@ -161,5 +162,22 @@ public class TelaConsulta extends JFrame {
 		});
 		btnMesasSemGarcom.setBounds(414, 146, 271, 23);
 		contentPane.add(btnMesasSemGarcom);
+		
+		button = new JButton("Consultar Conta da mesa");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					int resposta = Integer.parseInt(JOptionPane.showInputDialog(null, "Favor digite a mesa: "));
+					Conta contaConsulta = FachadaRestaurante.consultarConta(resposta);
+					String texto = "Listagem de conta para mesa:"+resposta+"\n";
+					textArea.setText(contaConsulta.toString());
+				} catch (Exception e) {
+					textArea.setText(e.getMessage());
+				}
+								
+			}
+		});
+		button.setBounds(414, 81, 271, 23);
+		contentPane.add(button);
 	}
 }

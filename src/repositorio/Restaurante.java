@@ -47,20 +47,11 @@ public class Restaurante {
 		return contas.add(conta);
 	}
 	
-	public boolean adicionarProduto (Produto produtoAdicionado) throws Exception {
-		Produto p = localizarProduto(produtoAdicionado.getNome());
-		if (p != null) {
-			throw new Exception("Produto já cadastrado");
-		}
+	public boolean adicionarProduto (Produto produtoAdicionado){
 		return produtos.add(produtoAdicionado);
 	}
 	
-	public boolean adicionarGarcom (Garcom garcomAdicionado) throws Exception {
-		Garcom g = localizarGarcom(garcomAdicionado.getApelido());
-		if (g != null) {
-			throw new Exception("Garcom já cadastrado");
-		}
-		
+	public boolean adicionarGarcom (Garcom garcomAdicionado) {
 		return garcons.add(garcomAdicionado);
 	}
 	

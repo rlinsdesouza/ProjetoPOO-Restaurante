@@ -46,7 +46,7 @@ public class TelaPrincipal {
 					TelaPrincipal window = new TelaPrincipal();
 					window.frmPrincipal.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 				}
 			}
 		});

@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import fachada.FachadaRestaurante;
+import fachada.Fachada;
 import modelo.Garcom;
 
 public class TelaCadastroGarcom extends JFrame {
@@ -96,7 +96,7 @@ public class TelaCadastroGarcom extends JFrame {
 					String apelid = apelido.getText();
 					int mI = Integer.parseInt(mesaInit.getText());
 					int mE = Integer.parseInt(mesaEnd.getText());
-					Garcom g = FachadaRestaurante.cadastrarGarcom(apelid, mI, mE);
+					Garcom g = Fachada.cadastrarGarcom(apelid, mI, mE);
 					lblmsg.setText("cadastrado "+g.getApelido());
 					
 					apelido.setText("");
@@ -123,7 +123,7 @@ public class TelaCadastroGarcom extends JFrame {
 					String apelid = apelido.getText();
 					int mI = Integer.parseInt(mesaInit.getText());
 					int mE = Integer.parseInt(mesaEnd.getText());
-					FachadaRestaurante.definirGarcomMesa(apelid, mI, mE);
+					Fachada.definirGarcomMesa(apelid, mI, mE);
 					lblmsg.setText("Mesas definidas com sucesso!");
 					
 					apelido.setText("");

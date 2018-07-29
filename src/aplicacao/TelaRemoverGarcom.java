@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import fachada.FachadaRestaurante;
+import fachada.Fachada;
 
 public class TelaRemoverGarcom extends JFrame {
 	private JPanel contentPane;
@@ -73,7 +73,7 @@ public class TelaRemoverGarcom extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					String nome = textField.getText();			
-					FachadaRestaurante.removerGarcom(nome);
+					Fachada.excluirGarcom(nome);
 					
 					lblMensagemDoUsuario.setText("garcom removido ");
 					
@@ -81,6 +81,7 @@ public class TelaRemoverGarcom extends JFrame {
 					lblMensagemDoUsuario.setText("campo id deve ser numerico");
 				} catch (Exception e) {
 					lblMensagemDoUsuario.setText(e.getMessage());
+					e.printStackTrace();	
 				}
 			}
 		});

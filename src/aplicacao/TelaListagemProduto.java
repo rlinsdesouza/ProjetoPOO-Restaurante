@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,12 +12,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
-import fachada.FachadaRestaurante;
+import fachada.Fachada;
 import modelo.Produto;
-import javax.swing.JTextField;
 
 public class TelaListagemProduto extends JFrame {
 
@@ -50,11 +51,11 @@ public class TelaListagemProduto extends JFrame {
 			public void windowOpened(WindowEvent arg0) {
 				try{
 					String texto;
-					ArrayList<Produto> lista1 = FachadaRestaurante.listarProdutos();
+					List<Produto> lista1 = Fachada.listarProdutos();
 					texto = "Listagem de produtos: \n";
 					if (lista1.isEmpty())
 						texto += "n�o tem produto cadastrado\n";
-					else 	
+					else
 						for(Produto p: lista1) 
 							texto +=  p + "\n"; 
 
@@ -81,7 +82,7 @@ public class TelaListagemProduto extends JFrame {
 					String texto;
 					String palavra = formRefinaBusca.getText();
 					if (!palavra.isEmpty()) {
-						ArrayList<Produto> lista1 = FachadaRestaurante.listarProdutos(palavra);
+						ArrayList<Produto> lista1 = Fachada.listarProdutos(palavra);
 						texto = "Listagem de produtos: \n";
 						if (lista1.isEmpty())
 							texto += "n�o tem produto cadastrado\n";

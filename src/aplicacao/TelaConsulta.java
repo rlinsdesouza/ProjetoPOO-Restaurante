@@ -2,6 +2,7 @@ package aplicacao;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,7 +13,7 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
-import fachada.FachadaRestaurante;
+import fachada.Fachada;
 import modelo.Conta;
 import modelo.Mesa;
 
@@ -25,6 +26,7 @@ public class TelaConsulta extends JFrame {
 	private JButton btnConsulta_3;
 	private JButton btnMesasSemGarcom;
 	private JButton button;
+	private JButton btnDescontoMedioGarcom;
 
 	/**
 	 * Launch the application.
@@ -60,7 +62,7 @@ public class TelaConsulta extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try{
 					String texto;
-					ArrayList<Conta> lista1 = FachadaRestaurante.listarContas();
+					List<Conta> lista1 = Fachada.listarContas();
 					texto = "Listagem de contas: \n";
 					if (lista1.isEmpty())
 						texto += "n�o existe";
@@ -89,9 +91,9 @@ public class TelaConsulta extends JFrame {
 		btnConsulta_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int resposta = Integer.parseInt(JOptionPane.showInputDialog(null, "Favor digite a mesa: "));
-				ArrayList<Conta> lista1 = FachadaRestaurante.listarContas();
+				List<Conta> lista1 = Fachada.listarContas();
 				String texto = "Listagem de contas para mesa:"+resposta+"\n";
-				ArrayList<Conta> lista2 = new ArrayList<Conta>();
+				List<Conta> lista2 = new ArrayList<Conta>();
 				for (Conta conta : lista1) {
 					Conta contaAdd = conta;
 					if (contaAdd.getMesa().getId() == resposta && contaAdd.getDtfechamento() == null) {
@@ -118,10 +120,10 @@ public class TelaConsulta extends JFrame {
 					String nome = JOptionPane.showInputDialog("nome do garçom");
 					//String data = JOptionPane.showInputDialog("Data (Dia/Mes/Ano): "); 
 					String texto;
-					ArrayList<Conta> lista1;
+					List<Conta> lista1;
 					
-					lista1 = FachadaRestaurante.listarContas(nome);
-					texto = "A gorjeta do garçom "+nome+" foi: "+FachadaRestaurante.calcularGorjeta(nome)+"\n";
+					lista1 = Fachada.listarContas(nome);
+					texto = "A gorjeta do garçom "+nome+" foi: "+Fachada.calcularGorjeta(nome)+"\n";
 					texto += "Listagem de contas: \n";
 					if (lista1.isEmpty())
 						texto += "n�o existe";
@@ -132,6 +134,7 @@ public class TelaConsulta extends JFrame {
 					textArea.setText(texto);
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
+					e1.printStackTrace();	
 					textArea.setText(e1.getMessage());
 				}
 			}
@@ -144,7 +147,7 @@ public class TelaConsulta extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				ArrayList<Mesa> resultado = new ArrayList<Mesa>();
 				
-				for (Mesa mesa : FachadaRestaurante.listarMesas()) {
+				for (Mesa mesa : Fachada.listarMesas()) {
 					if(mesa.getGarcom()==null) {
 						resultado.add(mesa);
 					}
@@ -160,7 +163,7 @@ public class TelaConsulta extends JFrame {
 				textArea.setText(texto);
 			}
 		});
-		btnMesasSemGarcom.setBounds(414, 146, 271, 23);
+		btnMesasSemGarcom.setBounds(414, 175, 271, 23);
 		contentPane.add(btnMesasSemGarcom);
 		
 		button = new JButton("Consultar Conta da mesa");
@@ -168,7 +171,7 @@ public class TelaConsulta extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					int resposta = Integer.parseInt(JOptionPane.showInputDialog(null, "Favor digite a mesa: "));
-					Conta contaConsulta = FachadaRestaurante.consultarConta(resposta);
+					Conta contaConsulta = Fachada.consultarConta(resposta);
 					String texto = "Listagem de conta para mesa:"+resposta+"\n";
 					textArea.setText(contaConsulta.toString());
 				} catch (Exception e) {
@@ -179,5 +182,27 @@ public class TelaConsulta extends JFrame {
 		});
 		button.setBounds(414, 81, 271, 23);
 		contentPane.add(button);
+		
+		btnDescontoMedioGarcom = new JButton("Desconto Medio Garçom");
+		btnDescontoMedioGarcom.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String nome = JOptionPane.showInputDialog("nome do garçom");
+					//String data = JOptionPane.showInputDialog("Data (Dia/Mes/Ano): "); 
+					String texto;
+					ArrayList<Conta> lista1;
+					
+					texto = "O desconto médio do garçom "+nome+" foi: "+Fachada.calcularPercentualMedio(nome)+"\n"; 
+					
+					textArea.setText(texto);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();	
+					textArea.setText(e1.getMessage());
+				}
+			}
+		});
+		btnDescontoMedioGarcom.setBounds(414, 147, 271, 23);
+		contentPane.add(btnDescontoMedioGarcom);
 	}
 }

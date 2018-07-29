@@ -2,18 +2,23 @@ package fachada;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import modelo.Conta;
 import modelo.Garcom;
 import modelo.Mesa;
+import modelo.Pagamento;
+import modelo.PagamentoCartao;
+import modelo.PagamentoDinheiro;
 import modelo.Produto;
 import repositorio.Restaurante;
 
-public class FachadaRestaurante {
+public class Fachada {
 	
 	private static Restaurante domani = new Restaurante ();
 	
-	public static ArrayList<Produto> listarProdutos () {
+	public static List<Produto> listarProdutos () {
 		return domani.getProdutos();
 	}
 	
@@ -28,20 +33,20 @@ public class FachadaRestaurante {
 		return produtosFiltro;
 	}
 	
-	public static ArrayList<Garcom> listarGarcons () {
+	public static Map<String,Garcom> listarGarcons () {
 		return domani.getGarcons();
 	}
 	
-	public static ArrayList<Mesa> listarMesas () {
+	public static List<Mesa> listarMesas () {
 		return domani.getMesas();
 	}
 	
-	public static ArrayList<Conta> listarContas () {
+	public static List<Conta> listarContas () {
 		return domani.getContas();
 	}
 	
-	public static ArrayList<Conta> listarContas (String garcom) throws Exception {
-		ArrayList<Conta> lista = new ArrayList<Conta>();
+	public static List<Conta> listarContas (String garcom) throws Exception {
+		List<Conta> lista = new ArrayList<Conta>();
 		
 		domani.localizarGarcom(garcom);
 		
@@ -132,8 +137,8 @@ public class FachadaRestaurante {
 		return garcomAdicionado;
 	}
 	
-	public static Garcom removerGarcom(String nome) throws Exception {
-			Garcom g = domani.localizarGarcom(nome);
+	public static Garcom excluirGarcom(String nome) throws Exception {
+			Garcom g = domani.localizarGarcom(nome.toUpperCase());
 			
 		if (g!=null) {
 			for (Mesa m : g.getMesas()) {
@@ -141,7 +146,7 @@ public class FachadaRestaurante {
 					throw new Exception("Falhas: contas em aberto!");
 				}
 			}
-			domani.getGarcons().remove(g);
+			domani.getGarcons().remove(nome.toUpperCase());
 			for (Mesa m : g.getMesas()) {
 				m.setGarcom(null);
 			}
@@ -190,16 +195,19 @@ public class FachadaRestaurante {
 	}
 	
 	public static Conta consultarConta(int idmesa) throws Exception {
+		if (domani.localizarMesa(idmesa)==null) throw new Exception ("Mesa não localizada!");
 		int qntContas =  domani.localizarMesa(idmesa).getContas().size();
 		if (qntContas == 0 ) {
 			throw new Exception ("Mesa sem nenhuma conta registrada na base!");
 		}
 		
+		/*
 		for (Conta i: domani.localizarMesa(idmesa).getContas()) {
 			if (i.getDtfechamento() == null) {
 				return i;
 			}
 		}
+		*/
 
 		return domani.localizarMesa(idmesa).getContas().get(qntContas-1);
 	}
@@ -256,17 +264,45 @@ public class FachadaRestaurante {
 		contaFechamento.getMesa().setOcupada(false);
 	}
 	
-	public static double calcularGorjeta (String apelido) {
-		double gorjeta=0;
+	public static Pagamento pagarConta (int idmesa, String tipo, int percentual, String cartao, int quantidade) throws Exception  {
+		Conta contaFechamento = consultarConta(idmesa);
+		Pagamento pgConta = null;
 		
-		for (Conta conta : FachadaRestaurante.listarContas()) {
-			if (conta.getMesa().getGarcom().getApelido().equalsIgnoreCase(apelido) && conta.getDtfechamento()!=null) {
-				gorjeta =  gorjeta+(0.10*conta.getTotal());
-			}
+		if (contaFechamento.getDtfechamento() == null) {
+			throw new Exception ("Conta não fechada ainda!");
 		}
 		
-		return gorjeta;
+		if (tipo.equalsIgnoreCase("dinheiro")) {
+			pgConta = new PagamentoDinheiro (percentual);
+		}
+		
+		if (tipo.equalsIgnoreCase("cartao")) {
+			if (quantidade>4 || quantidade < 1) throw new Exception ("Verificar parcelas! (Máx=4)");
+			if (quantidade > 1 && contaFechamento.getTotal()/quantidade < 100) throw new Exception ("Valor mínimo da parcela = 100!");
+			pgConta = new PagamentoCartao(cartao, quantidade);
+		}
+
+		pgConta.calcularPagamento(contaFechamento.getTotal());
+		contaFechamento.setPagamento(pgConta);
+		return pgConta;
+	}
+		
+	public static double calcularGorjeta (String apelido) {
+		return Pagamento.calcularGorjeta(apelido);
 	}
 
-
+	public static double calcularPercentualMedio (String apelido) throws Exception {
+		int somaDesc=0;
+		int i=0;
+		
+		for (Conta c : listarContas(apelido)) {
+			if (c.getPagamento() != null && c.getPagamento() instanceof PagamentoDinheiro) {
+				PagamentoDinheiro p = (PagamentoDinheiro) c.getPagamento();
+				i++;
+				somaDesc = somaDesc + p.getPercentualdesconto();
+			}
+		}
+		return i>0 ? somaDesc/(double) i : 0.0;
+	}
 }
+

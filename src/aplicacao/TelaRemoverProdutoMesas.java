@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import fachada.FachadaRestaurante;
+import fachada.Fachada;
 
 public class TelaRemoverProdutoMesas extends JFrame {
 	private JPanel contentPane;
@@ -73,7 +73,7 @@ public class TelaRemoverProdutoMesas extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					String nome = textField.getText();			
-					FachadaRestaurante.apagarProduto(nome);
+					Fachada.apagarProduto(nome);
 					
 					lblMensagemDoUsuario.setText("produto removido ");
 					

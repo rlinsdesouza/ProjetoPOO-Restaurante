@@ -1,5 +1,8 @@
 package repositorio;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import modelo.Conta;
 import modelo.Garcom;
@@ -8,26 +11,26 @@ import modelo.Produto;
 
 public class Restaurante {
 	
-	private ArrayList<Produto> produtos = new ArrayList<Produto>();
-	private ArrayList<Mesa> mesas = new ArrayList<>();
+	private List<Produto> produtos = new ArrayList<Produto>();
+	private List<Mesa> mesas = new ArrayList<>();
 	private int primaryKeyMesas = 0;
-	private ArrayList<Conta> contas = new ArrayList<>();
+	private List<Conta> contas = new ArrayList<>();
 	private int primaryKeyContas = 0;
-	private ArrayList<Garcom> garcons = new ArrayList<Garcom>();
+	private Map<String,Garcom> garcons = new TreeMap<>();
 	
-	public ArrayList<Garcom> getGarcons() {
+	public Map<String,Garcom> getGarcons() {
 		return garcons;
 	}
 
-	public ArrayList<Produto> getProdutos() {
+	public List<Produto> getProdutos() {
 		return produtos;
 	}
 
-	public ArrayList<Mesa> getMesas() {
+	public List<Mesa> getMesas() {
 		return mesas;
 	}
 	
-	public ArrayList<Conta> getContas() {
+	public List<Conta> getContas() {
 		return contas;
 	}
 	
@@ -51,8 +54,8 @@ public class Restaurante {
 		return produtos.add(produtoAdicionado);
 	}
 	
-	public boolean adicionarGarcom (Garcom garcomAdicionado) {
-		return garcons.add(garcomAdicionado);
+	public Garcom adicionarGarcom (Garcom garcomAdicionado) {
+		return garcons.put(garcomAdicionado.getApelido().toUpperCase(),garcomAdicionado);
 	}
 	
 	public Mesa localizarMesa (int id) {
@@ -75,12 +78,7 @@ public class Restaurante {
 	}
 	
 	public Garcom localizarGarcom (String garcom) {
-		for (Garcom g : garcons) {
-			if (g.getApelido().equalsIgnoreCase(garcom)) {
-				return g;
-			}
-		}
-		return null;
+		return garcons.get(garcom.toUpperCase());
 	}
 	
 	public boolean removerConta (Conta c) {

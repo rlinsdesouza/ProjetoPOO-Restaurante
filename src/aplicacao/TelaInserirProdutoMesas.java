@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import fachada.FachadaRestaurante;
+import fachada.Fachada;
 
 public class TelaInserirProdutoMesas extends JFrame {
 	private JPanel contentPane;
@@ -86,8 +86,8 @@ public class TelaInserirProdutoMesas extends JFrame {
 					String nome = textField.getText();
 					String garcom = formGarcom.getText();
 					int id = Integer.parseInt(textField_1.getText());
-					FachadaRestaurante.permissaoGarcom(garcom, id);
-					FachadaRestaurante.solicitarProduto(id, nome);
+					Fachada.permissaoGarcom(garcom, id);
+					Fachada.solicitarProduto(id, nome);
 					lblmsg.setText("produto inserido ");
 				} catch (NumberFormatException e) {
 					lblmsg.setText("campo id deve ser numerico");

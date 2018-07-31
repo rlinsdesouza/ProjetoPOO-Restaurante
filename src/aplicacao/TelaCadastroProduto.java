@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import fachada.FachadaRestaurante;
+import fachada.Fachada;
 import modelo.Produto;
 
 public class TelaCadastroProduto extends JFrame {
@@ -81,7 +81,7 @@ public class TelaCadastroProduto extends JFrame {
 				try{
 					String nome = textField.getText();
 					double preco = Double.parseDouble(textField_1.getText());
-					Produto p = FachadaRestaurante.cadastrarProduto(nome, preco);
+					Produto p = Fachada.cadastrarProduto(nome, preco);
 					lblmsg.setText("cadastrado "+p.getNome());
 					
 					textField.setText("");

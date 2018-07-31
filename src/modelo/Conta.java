@@ -8,8 +8,9 @@ public class Conta {
 	private double total;
 	private Mesa mesa;
 	private ArrayList<Produto> produtos;
-		
-	
+	private Pagamento pagamento;
+
+
 	public Conta(int numero, Mesa mesa) {
 		super();
 		this.numero = numero;
@@ -17,9 +18,10 @@ public class Conta {
 		this.total = 0.0;
 		this.mesa = mesa;
 		this.produtos = new ArrayList<Produto>();
+		this.pagamento = null;
 	}
-	
-	
+
+
 	public int getNumero() {
 		return numero;
 	}
@@ -38,6 +40,7 @@ public class Conta {
 	public void setTotal(double total) {
 		this.total = total;
 	}
+
 	public Mesa getMesa() {
 		return mesa;
 	}
@@ -50,9 +53,18 @@ public class Conta {
 	public void setProdutos(ArrayList<Produto> produtos) {
 		this.produtos = produtos;
 	}
-	
-	public String toString () {
-		return "Numero da conta: "+numero+"\n"+"Data de fechamento: "+ (dtfechamento != null ? dtfechamento : "Em aberto") +"\n"+"Numero da mesa: "+mesa.getId()+"\n"+"Garcom: "+mesa.getGarcom().getApelido()+"\n"+"Produtos: "+produtos+"\n"+"Total: "+total; 
+
+	public Pagamento getPagamento() {
+		return pagamento;
 	}
-	
+
+	public void setPagamento(Pagamento pagamento) {
+		this.pagamento = pagamento;
+	}
+
+
+	public String toString () {
+		return "Numero da conta: "+numero+"\n"+"Data de fechamento: "+ (dtfechamento != null ? dtfechamento : "Em aberto") +"\n"+"Numero da mesa: "+mesa.getId()+"\n"+"Garcom: "+mesa.getGarcom().getApelido()+"\n"+"Produtos: "+produtos+"\n"+"Total: "+total+"\n"+"Pagamento: "+"\n"+(pagamento != null ? pagamento : "Em aberto");
+	}
+
 }

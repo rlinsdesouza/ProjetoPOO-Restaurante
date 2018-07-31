@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import fachada.FachadaRestaurante;
+import fachada.Fachada;
 
 public class TelaApagarProduto extends JFrame {
 	private JPanel contentPane;
@@ -74,7 +74,7 @@ public class TelaApagarProduto extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					String nome = textField.getText();
-					FachadaRestaurante.apagarProduto(nome);
+					Fachada.apagarProduto(nome);
 					lblmsg.setText("produto excluido com sucesso ");
 				} catch (Exception e) {
 					lblmsg.setText(e.getMessage());

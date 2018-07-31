@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import fachada.FachadaRestaurante;
+import fachada.Fachada;
 import modelo.Conta;
 
 public class TelaControleConta extends JFrame {
@@ -26,6 +26,7 @@ public class TelaControleConta extends JFrame {
 	private JButton btnTransferirConta;
 	private JButton btnCancelarConta;
 	private JButton btnSolicitarProduto;
+	private JButton btnPagarConta;
 
 	/**
 	 * Launch the application.
@@ -50,7 +51,7 @@ public class TelaControleConta extends JFrame {
 		setTitle("Controle de Contas");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 328, 244);
+		setBounds(100, 100, 328, 290);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -71,8 +72,8 @@ public class TelaControleConta extends JFrame {
 				try{
 					int mesa = Integer.parseInt(formmesa.getText());
 					String apelido = formgarcom.getText();
-					FachadaRestaurante.permissaoGarcom(apelido, mesa);
-					Conta c = FachadaRestaurante.criarConta(mesa);
+					Fachada.permissaoGarcom(apelido, mesa);
+					Conta c = Fachada.criarConta(mesa);
 					lblmsg.setText("cadastrado conta na mesa "+mesa);
 					
 					formmesa.setText("");
@@ -88,7 +89,7 @@ public class TelaControleConta extends JFrame {
 		contentPane.add(btnCriar);
 		
 		lblmsg = new JLabel("");
-		lblmsg.setBounds(10, 185, 273, 14);
+		lblmsg.setBounds(26, 231, 273, 14);
 		contentPane.add(lblmsg);
 		
 		btnFecharConta = new JButton("Fechar conta");
@@ -97,8 +98,8 @@ public class TelaControleConta extends JFrame {
 				try{
 					int mesa = Integer.parseInt(formmesa.getText());
 					String apelido = formgarcom.getText();
-					FachadaRestaurante.permissaoGarcom(apelido, mesa);
-					FachadaRestaurante.fecharConta(mesa);
+					Fachada.permissaoGarcom(apelido, mesa);
+					Fachada.fecharConta(mesa);
 					lblmsg.setText("Conta da mesa "+mesa+" fechada com sucesso!");
 					
 					formmesa.setText("");
@@ -128,10 +129,10 @@ public class TelaControleConta extends JFrame {
 				try{
 					int mesa1 = Integer.parseInt(formmesa.getText());
 					String apelido = formgarcom.getText();
-					FachadaRestaurante.permissaoGarcom(apelido, mesa1);
+					Fachada.permissaoGarcom(apelido, mesa1);
 					int mesa2 = Integer.parseInt(JOptionPane.showInputDialog(null, "Favor digite a mesa de DESTINO: "));
-					FachadaRestaurante.permissaoGarcom(apelido, mesa2);
-					FachadaRestaurante.transferirConta(mesa1, mesa2);
+					Fachada.permissaoGarcom(apelido, mesa2);
+					Fachada.transferirConta(mesa1, mesa2);
 					lblmsg.setText ("Transferido com sucesso!");
 					//lblmsg.setText("Conta da mesa "+mesa1+" transferida para "+mesa2+"!");
 					
@@ -153,8 +154,8 @@ public class TelaControleConta extends JFrame {
 				try{
 					int mesa = Integer.parseInt(formmesa.getText());
 					String apelido = formgarcom.getText();
-					FachadaRestaurante.permissaoGarcom(apelido, mesa);
-					FachadaRestaurante.cancelarConta(mesa);
+					Fachada.permissaoGarcom(apelido, mesa);
+					Fachada.cancelarConta(mesa);
 					lblmsg.setText("cancelado conta da mesa"+mesa);
 					
 					formmesa.setText("");
@@ -185,7 +186,25 @@ public class TelaControleConta extends JFrame {
 				}
 			}
 		});
-		btnSolicitarProduto.setBounds(75, 149, 167, 23);
+		btnSolicitarProduto.setBounds(60, 149, 167, 23);
 		contentPane.add(btnSolicitarProduto);
+		
+		btnPagarConta = new JButton("Pagar Conta");
+		btnPagarConta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					TelaReceberConta r = new TelaReceberConta();
+					r.setVisible(true);
+					
+					formmesa.setText("");
+					formgarcom.setText("");
+					formmesa.requestFocus();
+				} catch (Exception erro) {
+					lblmsg.setText(erro.getMessage());
+				}
+			}
+		});
+		btnPagarConta.setBounds(60, 184, 167, 23);
+		contentPane.add(btnPagarConta);
 	}
 }

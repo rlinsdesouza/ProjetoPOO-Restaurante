@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import fachada.FachadaRestaurante;
+import fachada.Fachada;
 import modelo.Mesa;
 
 public class TelaCadastroMesas extends JFrame {
@@ -63,7 +63,7 @@ public class TelaCadastroMesas extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try{
 					int numero = Integer.parseInt(textField.getText());
-					Mesa m = FachadaRestaurante.adicionarMesa (numero);
+					Mesa m = Fachada.adicionarMesa (numero);
 					lblmsg.setText("cadastrado "+m.getId());
 					
 					textField.setText("");

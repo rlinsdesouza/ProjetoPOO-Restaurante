@@ -20,7 +20,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
-import fachada.FachadaRestaurante;
+import fachada.Fachada;
 import modelo.Garcom;
 import modelo.Produto;
 
@@ -75,24 +75,24 @@ public class TelaPrincipal {
 			public void windowOpened(WindowEvent arg0) {
 				try{
 					//  pre-cadastro
-					FachadaRestaurante.criarMesas(20);
+					Fachada.criarMesas(20);
 					Produto p;
-					p = FachadaRestaurante.cadastrarProduto("Coca-cola", 3.0);
-					p = FachadaRestaurante.cadastrarProduto("File a parmegiana", 50.0);
-					p = FachadaRestaurante.cadastrarProduto("Suco de Laranja", 4.20);
-					p = FachadaRestaurante.cadastrarProduto("Feijoada para 3", 30.0);
-					p = FachadaRestaurante.cadastrarProduto("Guarana", 3.50);
-					p = FachadaRestaurante.cadastrarProduto("Torta de frango", 10.0);
-					p = FachadaRestaurante.cadastrarProduto("Galinha caipira", 32.0);
-					p = FachadaRestaurante.cadastrarProduto("Suco de limao", 3.80);
+					p = Fachada.cadastrarProduto("Coca-cola", 3.0);
+					p = Fachada.cadastrarProduto("File a parmegiana", 50.0);
+					p = Fachada.cadastrarProduto("Suco de Laranja", 4.20);
+					p = Fachada.cadastrarProduto("Feijoada para 3", 30.0);
+					p = Fachada.cadastrarProduto("Guarana", 3.50);
+					p = Fachada.cadastrarProduto("Torta de frango", 10.0);
+					p = Fachada.cadastrarProduto("Galinha caipira", 32.0);
+					p = Fachada.cadastrarProduto("Suco de limao", 3.80);
 					Garcom g;
-					g = FachadaRestaurante.cadastrarGarcom("Rafael", 1, 5);
-					g = FachadaRestaurante.cadastrarGarcom("Fabricio", 6, 10);
-					g = FachadaRestaurante.cadastrarGarcom("Kamila", 11, 15);
-					g = FachadaRestaurante.cadastrarGarcom("Pah", 16, 20);
+					g = Fachada.cadastrarGarcom("Rafael", 1, 5);
+					g = Fachada.cadastrarGarcom("Fabricio", 6, 10);
+					g = Fachada.cadastrarGarcom("Kamila", 11, 15);
+					g = Fachada.cadastrarGarcom("Pah", 16, 20);
 					
-					p = FachadaRestaurante.solicitarProduto(20, "Guarana");
-					p = FachadaRestaurante.solicitarProduto(19, "Guarana");
+					p = Fachada.solicitarProduto(20, "Guarana");
+					p = Fachada.solicitarProduto(19, "Guarana");
 				}catch(Exception e){
 					System.out.println(e.getMessage());
 					e.printStackTrace();

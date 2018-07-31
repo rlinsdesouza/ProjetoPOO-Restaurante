@@ -2,6 +2,8 @@ package fachada;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -17,14 +19,22 @@ import repositorio.Restaurante;
 public class Fachada {
 	
 	private static Restaurante domani = new Restaurante ();
+	private static Comparator<Produto> compareProduto = new Comparator<Produto> (){
+		public int compare (Produto p1, Produto p2) {
+			return p1.getNome().compareTo(p2.getNome());
+		}
+	};
 	
 	public static List<Produto> listarProdutos () {
-		return domani.getProdutos();
+		List<Produto> produtos = domani.getProdutos();
+		Collections.sort(produtos,compareProduto);
+		return produtos;
 	}
 	
 	public static ArrayList<Produto> listarProdutos (String nome) {
 		ArrayList<Produto> produtosFiltro = new ArrayList<Produto>();	
 		
+		Collections.sort(produtosFiltro,compareProduto);
 		for (Produto produto : listarProdutos()) {
 			if(produto.getNome().contains(nome.toUpperCase())) {
 				produtosFiltro.add(produto);

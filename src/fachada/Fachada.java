@@ -281,6 +281,10 @@ public class Fachada {
 		if (contaFechamento.getDtfechamento() == null) {
 			throw new Exception ("Conta n√£o fechada ainda!");
 		}
+		
+		if (contaFechamento.getPagamento() != null) {
+			throw new Exception ("Conta j· paga!");
+		}
 
 		if (tipo.equalsIgnoreCase("dinheiro")) {
 			pgConta = new PagamentoDinheiro (percentual);

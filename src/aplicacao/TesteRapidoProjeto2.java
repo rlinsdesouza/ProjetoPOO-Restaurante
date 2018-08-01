@@ -49,7 +49,9 @@ public class TesteRapidoProjeto2 {
 			g = Fachada.cadastrarGarcom("baixinho", 1,5);
 			g = Fachada.cadastrarGarcom("esperto", 6,10);
 			g = Fachada.cadastrarGarcom("zezinho", 11,15);
-		}catch (Exception e) {System.out.println("--->"+e.getMessage());}
+		}catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("--->"+e.getMessage());}
 
 	}
 
@@ -69,7 +71,9 @@ public class TesteRapidoProjeto2 {
 			System.out.println("\ncontas criadas:");
 			System.out.println(contas);
 
-		}catch (Exception e) {System.out.println("--->"+e.getMessage());}
+		}catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("--->"+e.getMessage());}
 
 	}
 
@@ -163,6 +167,7 @@ public class TesteRapidoProjeto2 {
 			
 			
 		}catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("--->"+e.getMessage());}
 		
 	}

@@ -33,7 +33,7 @@ public class PagamentoCartao extends Pagamento {
 		if (this.quantidadeparcelas < 3) {
 			super.setValorpago(totalconta);
 		}else {
-			super.setValorpago(totalconta-((double)(this.quantidadeparcelas*10-20)/100*totalconta));
+			super.setValorpago(totalconta+((double)(this.quantidadeparcelas*10-20)/100*totalconta));
 		}
 		
 	}

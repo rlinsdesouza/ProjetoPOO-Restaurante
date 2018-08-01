@@ -83,5 +83,14 @@ public class Restaurante {
 	public boolean removerConta (Conta c) {
 		return this.contas.remove(c);
 	}
+	
+	public Garcom removerGarcom (String garcom) {
+		Garcom g = garcons.get(garcom.toUpperCase());
+		for (Mesa m : g.getMesas()) {
+			m.setGarcom(null);
+		}
+		garcons.remove(garcom.toUpperCase());
+		return g;
+	}
 
 }

@@ -155,11 +155,7 @@ public class Fachada {
 					throw new Exception("Falhas: contas em aberto!");
 				}
 			}
-			domani.getGarcons().remove(nome.toUpperCase());
-			for (Mesa m : g.getMesas()) {
-				m.setGarcom(null);
-			}
-			//g.setMesas(null);
+			domani.removerGarcom(nome);
 			return g;
 		} else {
 			throw new Exception ("Garcom não cadastrado!");
@@ -213,7 +209,7 @@ public class Fachada {
 		if (qntContas == 0) {
 			//throw new Exception ("Mesa sem nenhuma conta registrada na base!");
 			return null;
-		}
+		} 
 
 		/*
 		for (Conta i: domani.localizarMesa(idmesa).getContas()) {

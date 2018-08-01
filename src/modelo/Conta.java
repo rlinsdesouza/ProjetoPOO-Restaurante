@@ -64,7 +64,7 @@ public class Conta {
 
 
 	public String toString () {
-		return "Numero da conta: "+numero+"\n"+"Data de fechamento: "+ (dtfechamento != null ? dtfechamento : "Em aberto") +"\n"+"Numero da mesa: "+mesa.getId()+"\n"+"Garcom: "+mesa.getGarcom().getApelido()+"\n"+"Produtos: "+produtos+"\n"+"Total: "+total+"\n"+"Pagamento: "+"\n"+(pagamento != null ? pagamento : "Em aberto");
+		return "Numero da conta: "+numero+"\n"+"Data de fechamento: "+ (dtfechamento != null ? dtfechamento : "Em aberto")+"\n"+"Numero da mesa: "+mesa.getId()+"\n"+"Garcom: "+(mesa.getGarcom() != null ? mesa.getGarcom().getApelido()+"\n" : "Sem garçom"+"\n")+"Produtos: "+produtos+"\n"+"Total: "+total+"\n"+"Pagamento: "+"\n"+(pagamento != null ? pagamento : "Em aberto");
 	}
 
 }

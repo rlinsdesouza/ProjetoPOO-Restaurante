@@ -21,6 +21,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import fachada.Fachada;
+import modelo.Conta;
 import modelo.Garcom;
 import modelo.Produto;
 
@@ -91,6 +92,9 @@ public class TelaPrincipal {
 					g = Fachada.cadastrarGarcom("Kamila", 11, 15);
 					g = Fachada.cadastrarGarcom("Pah", 16, 20);
 					
+					Conta c;
+					c = Fachada.criarConta(19);
+					c = Fachada.criarConta(20);
 					p = Fachada.solicitarProduto(20, "Guarana");
 					p = Fachada.solicitarProduto(19, "Guarana");
 				}catch(Exception e){

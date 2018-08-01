@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 import modelo.Conta;
 import modelo.Garcom;
@@ -43,15 +42,15 @@ public class Fachada {
 		return produtosFiltro;
 	}
 
-	public static Map<String,Garcom> listarGarcons () {
+	public static ArrayList<Garcom> listarGarcons () {
 		return domani.getGarcons();
 	}
 
-	public static List<Mesa> listarMesas () {
+	public static ArrayList<Mesa> listarMesas () {
 		return domani.getMesas();
 	}
 
-	public static List<Conta> listarContas () {
+	public static ArrayList<Conta> listarContas () {
 		return domani.getContas();
 	}
 
@@ -189,6 +188,10 @@ public class Fachada {
 
 		Mesa mesaAtiva = domani.localizarMesa(idmesa);
 
+		if (mesaAtiva == null) {
+			throw new Exception ("Mesa inexistente!");
+		}
+		
 		if (mesaAtiva.getGarcom() == null) {
 			throw new Exception ("Mesa sem garcom!");
 		}
@@ -207,8 +210,9 @@ public class Fachada {
 	public static Conta consultarConta(int idmesa) throws Exception {
 		if (domani.localizarMesa(idmesa)==null) throw new Exception ("Mesa nÃ£o localizada!");
 		int qntContas =  domani.localizarMesa(idmesa).getContas().size();
-		if (qntContas == 0 ) {
-			throw new Exception ("Mesa sem nenhuma conta registrada na base!");
+		if (qntContas == 0) {
+			//throw new Exception ("Mesa sem nenhuma conta registrada na base!");
+			return null;
 		}
 
 		/*
@@ -224,14 +228,16 @@ public class Fachada {
 
 	public static Produto solicitarProduto (int idmesa,String nomeproduto) throws Exception {
 		Produto produtoSolicitado = domani.localizarProduto(nomeproduto);
-		try {
-			Conta contaAberta = consultarConta(idmesa);
-			contaAberta.getProdutos().add(produtoSolicitado);
-		} catch (Exception e) {
-			Conta contaAberta = criarConta(idmesa);
-			contaAberta.getProdutos().add(produtoSolicitado);
-		}
-		Conta contaAberta =  consultarConta(idmesa);
+		
+		if (produtoSolicitado == null) throw new Exception ("Produto não cadastrado!");
+		
+		Mesa mesa = domani.localizarMesa(idmesa);
+		
+		if (!mesa.isOcupada()) throw new Exception ("Nenhuma conta em aberto!"); 
+		
+		Conta contaAberta = consultarConta(idmesa);
+
+		contaAberta.getProdutos().add(produtoSolicitado);
 		contaAberta.setTotal(contaAberta.getTotal()+produtoSolicitado.getPreco());
 		return produtoSolicitado;
 	}
@@ -247,15 +253,20 @@ public class Fachada {
 	public static void transferirConta(int idmesaorigem,int idmesadestino) throws Exception {
 		Conta contaOrigem = consultarConta(idmesaorigem);
 		Conta contaDestino = consultarConta(idmesadestino);
-
+		
+		if (contaDestino == null) {
+			criarConta(idmesadestino);
+		}
+		
 		if (contaOrigem == null) {
 			throw new Exception ("NÃ£o Ã© possÃ­vel transferir produtos de uma mesa sem conta!");
 		}
 
-		if (contaDestino == null) {
-			contaDestino = criarConta(idmesadestino);
-		}
-
+		if (contaOrigem == contaDestino) throw new Exception ("Não é possível transferir pra mesma mesa!"); 
+		
+		if (contaOrigem.getMesa().getGarcom().getApelido() != contaDestino.getMesa().getGarcom().getApelido())
+			throw new Exception ("Mesas de garçons diferentes!");
+			
 		contaDestino.getProdutos().addAll(contaOrigem.getProdutos());
 		contaDestino.setTotal(0);
 		for (Produto produto : contaDestino.getProdutos()) {
@@ -266,6 +277,9 @@ public class Fachada {
 
 	public static void fecharConta(int idmesa) throws Exception {
 		Conta contaFechamento = consultarConta(idmesa);
+		
+		if (contaFechamento.getDtfechamento() != null ) 
+			throw new Exception ("Nenhuma conta em aberto!"); 
 
 		LocalDateTime agora = LocalDateTime.now();
 		DateTimeFormatter f = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");

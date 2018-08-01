@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Map;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -64,12 +64,12 @@ public class TelaListagemGarcom extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try{
 					String texto;
-					Map<String,Garcom> lista1 = Fachada.listarGarcons();
+					ArrayList<Garcom> lista1 = Fachada.listarGarcons();
 					texto = "Listagem de garçons: \n";
 					if (lista1.isEmpty())
 						texto += "n�o tem garcom cadastrado\n";
 					else {
-						for(Garcom p: lista1.values()) 
+						for(Garcom p: lista1) 
 							texto +=  p + "\n"; 
 					}	
 					textArea.setText(texto);

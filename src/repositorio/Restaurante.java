@@ -1,6 +1,5 @@
 package repositorio;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -11,26 +10,26 @@ import modelo.Produto;
 
 public class Restaurante {
 
-	private List<Produto> produtos = new ArrayList<Produto>();
-	private List<Mesa> mesas = new ArrayList<>();
+	private ArrayList<Produto> produtos = new ArrayList<Produto>();
+	private ArrayList<Mesa> mesas = new ArrayList<>();
 	private int primaryKeyMesas = 0;
-	private List<Conta> contas = new ArrayList<>();
+	private ArrayList<Conta> contas = new ArrayList<>();
 	private int primaryKeyContas = 0;
 	private Map<String,Garcom> garcons = new TreeMap<>();
 
-	public Map<String,Garcom> getGarcons() {
-		return garcons;
+	public ArrayList<Garcom> getGarcons() {
+		return new ArrayList<Garcom> (garcons.values());
 	}
 
-	public List<Produto> getProdutos() {
+	public ArrayList<Produto> getProdutos() {
 		return produtos;
 	}
 
-	public List<Mesa> getMesas() {
+	public ArrayList<Mesa> getMesas() {
 		return mesas;
 	}
 
-	public List<Conta> getContas() {
+	public ArrayList<Conta> getContas() {
 		return contas;
 	}
 
